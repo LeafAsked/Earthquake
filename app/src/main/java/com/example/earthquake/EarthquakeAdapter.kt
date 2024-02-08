@@ -37,7 +37,7 @@ class EarthquakeAdapter(private var earthquakeList: FeatureCollection) : Recycle
     override fun onBindViewHolder(holder: EarthquakeAdapter.ViewHolder, position: Int) {
         val earthquake = earthquakeList.features[position]
         val context = holder.layout.context
-        holder.textViewMagnitude.text = String.format("%.2f", earthquake.properties.mag)
+        holder.textViewMagnitude.text = String.format("%.1f", earthquake.properties.mag)
         holder.textViewLocation.text = earthquake.properties.place
         holder.textViewTime.text = Date(earthquake.properties.time).toString()
 
@@ -48,6 +48,24 @@ class EarthquakeAdapter(private var earthquakeList: FeatureCollection) : Recycle
             // 3. launch the new activity using the intent
             context.startActivity(registrationIntent)
             Toast.makeText(context, "You clicked this ${earthquake.properties.title}", Toast.LENGTH_SHORT).show()
+        }
+        when {
+            earthquake.properties.mag <= 2.5 -> {
+                holder.textViewMagnitude.setTextColor(context.resources.getColor(R.color.blue, context.theme))
+                holder.textViewMagnitude.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
+            }
+            earthquake.properties.mag > 2.5 && earthquake.properties.mag <= 4.5 -> {
+                holder.textViewMagnitude.setTextColor(context.resources.getColor(R.color.orange, context.theme))
+                holder.textViewMagnitude.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
+            }
+            earthquake.properties.mag > 4.5 && earthquake.properties.mag <= 6.5 -> {
+                holder.textViewMagnitude.setTextColor(context.resources.getColor(R.color.red, context.theme))
+                holder.textViewMagnitude.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.baseline_flag_24,0,0,0)
+            }
+            earthquake.properties.mag > 6.5 -> {
+                holder.textViewMagnitude.setTextColor(context.resources.getColor(R.color.purple, context.theme))
+                holder.textViewMagnitude.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.baseline_flag_circle_24,0,0,0)
+            }
         }
     }
 
