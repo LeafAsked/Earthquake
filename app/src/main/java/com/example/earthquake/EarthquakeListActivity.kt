@@ -75,7 +75,7 @@ class EarthquakeListActivity : AppCompatActivity() {
     }
 
     fun sortByRanking() {
-        earthquakes.features = earthquakes.features.sortedBy { it.properties.time }
+        earthquakes.features = earthquakes.features.sortedBy { -it.properties.time }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
